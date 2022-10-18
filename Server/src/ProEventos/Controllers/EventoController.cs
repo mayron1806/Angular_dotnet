@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ProEventos.Data;
 using ProEventos.Models;
 namespace ProEventos.Controllers;
 
@@ -10,37 +7,20 @@ namespace ProEventos.Controllers;
 [Route("api/[controller]")]
 public class EventoController : ControllerBase
 {
-    public List<Evento> eventos = new List<Evento> {
-        new Evento()
-        {
-            ID = 1,
-            Tema = "Jogos",
-            Local = "Sete Lagoas",
-            Lote = "1",
-            QuantodadePessoas = 300,
-            DataEvento = DateTime.Now.AddDays(20).ToString(),
-            ImagemURL = "evento.jpg"
-        },
-        new Evento()
-        {
-            ID = 2,
-            Tema = "Jogos",
-            Local = "Sete Lagoas",
-            Lote = "1",
-            QuantodadePessoas = 300,
-            DataEvento = DateTime.Now.AddDays(20).ToString(),
-            ImagemURL = "evento2.jpg"
-        }
-    };
+    private readonly DataContext _context;
+    public EventoController(DataContext context)
+    {
+        _context = context;
+    }
     [HttpGet("{id}")]
     public Evento Pega(int id)
     {
-        return eventos.Where(e => e.ID == id).First();
+        return _context.Eventos.FirstOrDefault(e => e.ID == id);
     }
-     [HttpGet]
+    [HttpGet]
     public IEnumerable<Evento> PegaTodos()
     {
-        return eventos;
+        return _context.Eventos.ToList();
     }
     [HttpPost]
     public string Inserir()
