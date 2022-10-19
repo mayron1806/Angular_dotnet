@@ -5,11 +5,10 @@
     <input
       type="text"
       class="form-control mr-2"
-      placeholder="Buscar"
+      placeholder="Filtrar"
       [(ngModel)]="filtro">
   </div>
 </div>
-<h3>Filtro: {{filtro}}</h3>
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
@@ -26,7 +25,7 @@
   <tbody *ngIf="eventosFiltrados.length > 0">
     <tr *ngFor="let evento of eventosFiltrados">
       <td>
-        <img [collapse]="mostrarImagens"
+        <img [collapse]="!mostrarImagens"
           [isAnimated]="true"
           src="/assets/{{evento.imagemURL}}"
           alt="{{evento.imagemURL}}"
@@ -38,7 +37,10 @@
       <td>{{evento.dataEvento}}</td>
       <td>{{evento.quantodadePessoas}}</td>
       <td>{{evento.lote}}</td>
-      <td></td>
+      <td>
+        <button type="button" class="btn btn-primary btn-sm mr-2">Editar</button>
+        <button type="button" class="btn btn-danger btn-sm">Excluir</button>
+      </td>
     </tr>
   </tbody>
   <tfoot *ngIf="eventosFiltrados.length <= 0">
