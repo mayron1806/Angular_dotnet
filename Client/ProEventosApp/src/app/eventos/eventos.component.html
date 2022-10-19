@@ -1,6 +1,56 @@
 <h1>Eventos</h1>
-
-<div *ngFor="let item of eventos">
-  <p>nome: {{item.tema}}</p>
-  <p>Local: {{item.local}}</p>
+<hr>
+<div class="form-inline">
+  <div class="form-group mb-2">
+    <input
+      type="text"
+      class="form-control mr-2"
+      placeholder="Buscar"
+      [(ngModel)]="filtro">
+  </div>
 </div>
+<h3>Filtro: {{filtro}}</h3>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th (click)="mostrarImagens = !mostrarImagens">Imagem</th>
+      <th>#</th>
+      <th>Tema</th>
+      <th>Local</th>
+      <th>Data</th>
+      <th>Qtd pessoas</th>
+      <th>Lote</th>
+      <th>Opções</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="eventosFiltrados.length > 0">
+    <tr *ngFor="let evento of eventosFiltrados">
+      <td>
+        <img [collapse]="mostrarImagens"
+          [isAnimated]="true"
+          src="/assets/{{evento.imagemURL}}"
+          alt="{{evento.imagemURL}}"
+          [style.width.px]="larguraImagem">
+      </td>
+      <td>{{evento.id}}</td>
+      <td>{{evento.tema}}</td>
+      <td>{{evento.local}}</td>
+      <td>{{evento.dataEvento}}</td>
+      <td>{{evento.quantodadePessoas}}</td>
+      <td>{{evento.lote}}</td>
+      <td></td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="eventosFiltrados.length <= 0">
+    <tr *ngIf="!carregandoEventos">
+      <td class="text-center" colspan="8">
+        <h2>Nenhum evento encontrado!</h2>
+      </td>
+    </tr>
+    <tr *ngIf="carregandoEventos">
+      <td class="text-center" colspan="8">
+        <h2>Carregando eventos...</h2>
+      </td>
+    </tr>
+  </tfoot>
+</table>
